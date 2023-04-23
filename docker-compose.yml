@@ -11,6 +11,7 @@ services:
       - "4000:4000"
     networks:
       - app_network
+    restart: on-failure
     # command: sleep infinity
 
   db:
