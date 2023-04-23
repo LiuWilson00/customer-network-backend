@@ -1,0 +1,26 @@
+# Step 1: Build the Nest.js application
+FROM node:16-alpine AS builder
+WORKDIR /app
+COPY package.json yarn.lock ./
+RUN yarn install
+COPY . .
+RUN yarn run build
+
+# # Step 2: Set up the production image
+# FROM node:16-alpine
+# WORKDIR /app
+# COPY package.json yarn.lock ./
+# RUN yarn install --production
+# COPY --from=builder /app/dist /app/dist
+
+# # Set the environment variables
+ENV NODE_ENV=production
+ENV PORT=4000
+
+# RUN apk update && \
+#     apk add --no-cache mysql-client
+
+
+# Expose the port and start the application
+EXPOSE 4000
+CMD ["yarn", "run", "start:prod"]
